@@ -145,31 +145,18 @@ Customize the theme behavior of the website.
 You can adjust the theme color of the website by setting primary hue and
 saturation values for light and dark themes.
 
-<OptionTable
-  options={[
-    [
-      'color.hue',
-      'number | { dark: number; light: number }',
-      'The hue of the primary theme color.'
-    ],
-    [
-      'color.saturation',
-      'number | { dark: number; light: number }',
-      'The saturation of the primary theme color.'
-    ]
-  ]}
-/>
-
-|            |           |                                                                                                        |
-| ---------- | --------- | ------------------------------------------------------------------------------------------------------ |
-|    | `` |                                                   |
-|  | ``  |  |
+|                  |                                             |                                            |
+| ---------------- | ------------------------------------------- | ------------------------------------------ |
+| color.hue        | `number \| { dark: number; light: number }` | The hue of the primary theme color.        |
+| color.saturation | `number \| { dark: number; light: number }` | The saturation of the primary theme color. |
 
 Try it out for this website:
 
-| Hue   | Saturation   |
-| ----- | ------------ |
-| {hue} | {saturation} |
+<br />
+
+<div>**Hue** {hue}</div>
+
+<div>**Saturation** {saturation}</div>
 
 export const hue = (
   <div className="flex h-6 items-center gap-2">
