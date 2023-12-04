@@ -1,10 +1,11 @@
 import cn from 'clsx'
 // flexsearch types are incorrect, they were overwritten in tsconfig.json
 import FlexSearch from 'flexsearch'
+import NextLink from 'next/link'
 import type { SearchData } from 'nextra'
 import { useRouter } from 'nextra/hooks'
 import type { ReactElement, ReactNode } from 'react'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { DEFAULT_LOCALE } from '../constants'
 import type { SearchResult } from '../types'
 import { HighlightMatches } from './highlight-matches'
@@ -286,5 +287,73 @@ export function Flexsearch({
       overlayClassName="_w-screen _min-h-[100px] _max-w-[min(calc(100vw-2rem),calc(100%+20rem))]"
       results={results}
     />
+  )
+}
+
+export default function SearchPage() {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState([])
+
+  useEffect(() => {
+    async function loadPagefind() {
+      if (typeof window.pagefind === 'undefined') {
+        try {
+          window.pagefind = await import(
+            // @ts-expect-error pagefind.js generated after build
+            /* webpackIgnore: true */ './pagefind/pagefind.js'
+          )
+        } catch (e) {
+          window.pagefind = { search: () => ({ results: [] }) }
+        }
+      }
+    }
+
+    loadPagefind()
+  }, [])
+
+  async function handleSearch() {
+    if (window.pagefind) {
+      const search = await window.pagefind.search(query)
+      setResults(search.results)
+    }
+  }
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Search..."
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        onInput={handleSearch}
+      />
+      <div id="results">
+        {results.map((result, index) => (
+          <Result key={result.id} result={result} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Result({ result }) {
+  const [data, setData] = useState(null)
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await result.data()
+      setData(data)
+    }
+
+    fetchData()
+  }, [result])
+
+  if (!data) return null
+
+  return (
+    <NextLink href={data.url}>
+      <h3>{data.meta.title}</h3>
+      <p>{data.excerpt}</p>
+    </NextLink>
   )
 }
