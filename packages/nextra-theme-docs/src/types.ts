@@ -11,5 +11,10 @@ export type PagefindResult = {
     title: string
   }
   raw_url: string
+  sub_results: {
+    excerpt: string
+    title: string
+    url: string
+  }[]
   url: string
 }

@@ -3,6 +3,18 @@ import { useState } from 'react'
 import type { SearchResult } from '../types'
 import { Search } from './search'
 
+async function preload() {
+  if (window.pagefind) return
+  try {
+    window.pagefind = await import(
+      // @ts-expect-error pagefind.js generated after build
+      /* webpackIgnore: true */ './pagefind/pagefind.js'
+    )
+  } catch {
+    window.pagefind = { search: async () => ({ results: [] }) }
+  }
+}
+
 export function Flexsearch({
   className
 }: {
@@ -12,18 +24,6 @@ export function Flexsearch({
   const [error, _setError] = useState(false)
   const [results, setResults] = useState<SearchResult[]>([])
   const [search, setSearch] = useState('')
-
-  async function preload() {
-    if (window.pagefind) return
-    try {
-      window.pagefind = await import(
-        // @ts-expect-error pagefind.js generated after build
-        /* webpackIgnore: true */ './pagefind/pagefind.js'
-      )
-    } catch {
-      window.pagefind = { search: async () => ({ results: [] }) }
-    }
-  }
 
   async function handleSearch(newValue: string) {
     setSearch(newValue)

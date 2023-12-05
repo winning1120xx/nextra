@@ -304,42 +304,46 @@ function Result({
 
   return (
     <>
-      {/* TODO: fix this to show subresults */}
-      {/*<div*/}
-      {/*  className={cn(*/}
-      {/*    '_mx-2.5 _mb-2 _mt-6 _select-none _border-b _border-black/10 _px-2.5 _pb-1.5 _text-xs _font-semibold _uppercase _text-gray-500 first:_mt-0 dark:_border-white/20 dark:_text-gray-300',*/}
-      {/*    'contrast-more:_border-gray-600 contrast-more:_text-gray-900 contrast-more:dark:_border-gray-50 contrast-more:dark:_text-gray-50'*/}
-      {/*  )}*/}
-      {/*>*/}
-      {/*  {'result.doc.title'}*/}
-      {/*</div>*/}
-      <li
+      <div
         className={cn(
-          '_mx-2.5 _break-words _rounded-md',
-          'contrast-more:_border',
-          i === active
-            ? '_bg-primary-500/10 _text-primary-600 contrast-more:_border-primary-500'
-            : '_text-gray-800 contrast-more:_border-transparent dark:_text-gray-300'
+          '_mx-2.5 _mb-2 _mt-6 _select-none _border-b _border-black/10 _px-2.5 _pb-1.5 _text-xs _font-semibold _uppercase _text-gray-500 first:_mt-0 dark:_border-white/20 dark:_text-gray-300',
+          'contrast-more:_border-gray-600 contrast-more:_text-gray-900 contrast-more:dark:_border-gray-50 contrast-more:dark:_text-gray-50'
         )}
       >
-        <NextLink
-          className="_block _scroll-m-12 _px-2.5 _py-2 [&_mark]:_text-primary-600 [&_mark]:_bg-transparent"
-          href={data.raw_url.replace(/\.html$/, '')}
-          data-index={i}
-          onFocus={onActive}
-          onMouseMove={onActive}
-          onClick={onClick}
-          onKeyDown={onKeyDown}
+        {data.meta.title}
+      </div>
+      {data.sub_results.map(subResult => (
+        <li
+          key={subResult.url}
+          className={cn(
+            '_mx-2.5 _break-words _rounded-md',
+            'contrast-more:_border',
+            i === active
+              ? '_bg-primary-500/10 _text-primary-600 contrast-more:_border-primary-500'
+              : '_text-gray-800 contrast-more:_border-transparent dark:_text-gray-300'
+          )}
         >
-          <div className="_text-base _font-semibold _leading-5">
-            {data.meta.title}
-          </div>
-          <div
-            className="excerpt _mt-1 _text-sm _leading-[1.35rem] _text-gray-600 dark:_text-gray-400 contrast-more:dark:_text-gray-50"
-            dangerouslySetInnerHTML={{ __html: data.excerpt }}
-          />
-        </NextLink>
-      </li>
+          <NextLink
+            className="_block _scroll-m-12 _px-2.5 _py-2 [&_mark]:_text-primary-600 [&_mark]:_bg-transparent"
+            href={subResult.url
+              .replace('/_next/static/chunks/pages', '')
+              .replace(/\.html#/, '#')}
+            data-index={i}
+            onFocus={onActive}
+            onMouseMove={onActive}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+          >
+            <div className="_text-base _font-semibold _leading-5">
+              {subResult.title}
+            </div>
+            <div
+              className="excerpt _mt-1 _text-sm _leading-[1.35rem] _text-gray-600 dark:_text-gray-400 contrast-more:dark:_text-gray-50"
+              dangerouslySetInnerHTML={{ __html: subResult.excerpt }}
+            />
+          </NextLink>
+        </li>
+      ))}
     </>
   )
 }
