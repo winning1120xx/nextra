@@ -2,14 +2,13 @@ import { Transition } from '@headlessui/react'
 import cn from 'clsx'
 // eslint-disable-next-line no-restricted-imports -- since we don't need newWindow prop
 import NextLink from 'next/link'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import { useMounted } from 'nextra/hooks'
 import { InformationCircleIcon, SpinnerIcon } from 'nextra/icons'
 import type { CompositionEvent, KeyboardEvent, ReactElement } from 'react'
 import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { useMenu, useThemeConfig } from '../contexts'
-import type { SearchResult } from '../types'
-import { PagefindResult } from '../types'
+import type { PagefindResult, SearchResult } from '../types'
 import { renderComponent, renderString } from '../utils'
 import { Input } from './input'
 
@@ -39,7 +38,7 @@ export function Search({
   const themeConfig = useThemeConfig()
   const [show, setShow] = useState(false)
   const [active, setActive] = useState(0)
-  const router = useRouter()
+  // const router = useRouter()
   const { setMenu } = useMenu()
   const input = useRef<HTMLInputElement>(null)
   const ulRef = useRef<HTMLUListElement>(null)
@@ -142,7 +141,7 @@ export function Search({
         }
       }
     },
-    [active, results, router, finishSearch, handleActive, composition]
+    [active, results, finishSearch, handleActive, composition]
   )
 
   const mounted = useMounted()

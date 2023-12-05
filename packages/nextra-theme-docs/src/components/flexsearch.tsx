@@ -8,8 +8,8 @@ export function Flexsearch({
 }: {
   className?: string
 }): ReactElement {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
+  const [loading, _setLoading] = useState(false)
+  const [error, _setError] = useState(false)
   const [results, setResults] = useState<SearchResult[]>([])
   const [search, setSearch] = useState('')
 

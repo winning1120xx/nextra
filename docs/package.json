@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "postbuild": "pagefind --site .next/server/pages --output-path .next/static/chunks/pages/pagefind",
     "dev": "next",
+    "postbuild": "pagefind --site .next/server/pages --output-path .next/static/chunks/pages/pagefind",
     "start": "next start"
   },
   "dependencies": {
@@ -26,6 +26,7 @@
     "@types/react": "^18.2.23",
     "autoprefixer": "^10.4.15",
     "eslint": "^8.30.0",
+    "pagefind": "^1.0.4",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.3"
   }
