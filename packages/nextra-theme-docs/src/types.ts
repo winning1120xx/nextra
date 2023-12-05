@@ -1,9 +1,15 @@
 /* eslint typescript-sort-keys/interface: error */
-import type { ReactNode } from 'react'
 
 export type SearchResult = {
-  children: ReactNode
   id: string
-  prefix?: ReactNode
-  route: string
+  data: () => Promise<PagefindResult>
+}
+
+export type PagefindResult = {
+  url: string
+  raw_url: string
+  meta: {
+    title: string
+  }
+  excerpt: string
 }

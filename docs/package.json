@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "postbuild": "pagefind --site .next/server/pages --output-path .next/static/chunks/pages/pagefind",
     "dev": "next",
     "start": "next start"
   },
